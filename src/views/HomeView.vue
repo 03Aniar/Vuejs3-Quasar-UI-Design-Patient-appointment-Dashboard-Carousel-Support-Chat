@@ -1,21 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-toolbar class="q-ma-sm">
-      <q-input
-        outlined
-        v-model="text"
-        label="Search"
-        :dense="dense"
-        rounded
-        class="search"
-      >
-        <template v-slot:append>
-          <q-icon name="search" />
-        </template>
-      </q-input>
-      <q-space></q-space>
-      <q-btn color="white" text-color="black" icon="fas fa-moon" />
-    </q-toolbar>
+    
     <q-toolbar>
       <h6 class="text-weight-bolder">Dashboard</h6>
       <q-space></q-space>

@@ -1,74 +1,131 @@
 <template>
-  <q-drawer show-if-above side="left" behavior="desktop" :width="90" class="colorBackground">
-    <div class="flex flex-center column q-mt-lg q-mb-lg">
-        <q-icon name="fas fa-box" size="md" style="color: #adf8a6" />
-    </div>
-    <div class="flex flex-center column q-mt-sm q-mb-md">
-        <q-list>
-            <q-item clickable :active="link === 'home'" @click="link = 'home'" active-class="">
-                <q-item-section avatar class="flex flex-center column">
-                    <q-icon name="fas fa-tachometer-alt" />
-                </q-item-section>
+    <q-drawer show-if-above side="left" behavior="desktop" :width="279" class="colorBackground">
+      <!-- Profile Image -->
+      <div class="flex flex-center column q-mt-lg q-mb-xs">
+        <img :src="require('@/assets/Ellipse.png')" alt="Custom Image" class="profile-image" />
+      </div>
+      <!-- Sidebar Title -->
+      <div class="flex flex-center text-bold text-settings">Kinetic</div>
+      <!-- Sidebar Tree -->
+      <q-list class="q-ml-xs">
+        <q-tree :nodes="sidebarTreeData" node-key="label" :default-expand-all="false" selected-color="primary" v-model:selected="selectedKey" >
+          <template v-slot:default="{ node, active }">
+            <q-item :class="{ 'hovered': active }" hoverable>
+              <!-- Icon Section -->
+              <q-item-section>
+                <q-icon :name="node.icon" size="40px" color="white" />
+              </q-item-section>
+              <!-- Label Section -->
+              <q-item-section>
+                <q-router-link :to="node.link" class="sidebar_parent_text">
+                  {{ node.label }}
+                </q-router-link>
+              </q-item-section>
             </q-item>
-            <q-item clickable :active="link === 'clib'" @click="link = 'clib'" active-class="">
-                <q-item-section avatar class="flex flex-center column">
-                    <q-icon name="fas fa-clipboard" />
-                </q-item-section>
-            </q-item>
-            <q-item clickable :active="link === 'comment'" @click="link = 'comment'" active-class="">
-                <q-item-section avatar class="flex flex-center column">
-                    <q-icon name="fas fa-comments" />
-                </q-item-section>
-            </q-item>
-            <q-item clickable :active="link === 'chart'" @click="link = 'chart'" active-class="">
-                <q-item-section avatar class="flex flex-center column">
-                    <q-icon name="fas fa-chart-bar" />
-                </q-item-section>
-            </q-item>
-            <q-item clickable :active="link === 'cog'" @click="link = 'cog'" active-class="">
-                <q-item-section avatar class="flex flex-center column">
-                    <q-icon name="fas fa-cog" />
-                </q-item-section>
-            </q-item>
-        </q-list>
-    </div>
-    <div style="position:absolute; bottom: 20px; margin-left: auto; margin-right: auto; left:0; right:0; text-align:center">
-    <div>
-        <q-avatar>
-        <img src="https://cdn.quasar.dev/img/avatar1.jpg" />
-    </q-avatar>
-    </div>
-    <div>
-        <q-icon name="fas fa-user-plus" size="20px" color="white" class="q-my-md" />
-    </div>
-    <q-icon name="fas fa-sign-out-alt" size="20px" color="white"  />
-    </div>
-  </q-drawer>
-</template>
+          </template>
+        </q-tree>
+      </q-list>
+    </q-drawer>
+  </template>
+  
+  <script>
+  import { ref } from "vue";
+  
+  export default {
+    name: "SidebarList",
+    setup() {
+      const hoveredNode = ref(null);
+      const selectedKey = ref(null);
+  
+      const sidebarTreeData = ref([
+        {
+          icon: "home",
+          label: "Main page",
+          link: "/",
+        },
+        {
+          icon: "calendar_today",
+          label: "Calendar",
+          link: "/calendar",
+          children: [
+            { label: "Daily exercise", link: "/daily-exercise" },
+            { label: "Competitions", link: "/competitions" },
+            { label: "My results", link: "/my-results" },
+          ],
+        },
+        {
+          icon: "analytics",
+          label: "Analytics",
+          link: "/analytics",
+        },
+        {
+          icon: "settings",
+          label: "Settings",
+          link: "/settings",
+        },
+      ]);
+  
+      return {
+        sidebarTreeData,
+        hoveredNode,
+        selectedKey
+      };
+    },
+  };
+  </script>
+  
+  <style>
+  /* Drawer Background */
+  .colorBackground {
+    background: #1d2146;
+  }
 
-<script>
-    import {ref} from "vue";
-export default {
-    setup(){
-        return {
-            link: ref('home'),
-        }
+  .q-tree__node-header-content {
+    color: white !important;
+  }
+  
+  /* Sidebar Title */
+  .text-settings {
+    color: white;
+    font-family: "Montserrat Alternates";
+    font-size: 16px;
+  }
+  
+  /* Sidebar Text Styling */
+  .sidebar_parent_text {
+    color: white;
+    font-family: "" !important;
+    font-size: 16px;
+    margin-left: 5px;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .q-tree__node-header-content {
+    color: white;
+    font-family: "Montserrat Alternates" !important;
+    font-size: 16px;
+    margin-left: 5px;
+    transition: color 0.2s ease-in-out; /* Replace 'YourFontName' with your desired font */
+}
+    .q-tree__node-header {
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        margin-right: 3px;
     }
+  
+  .hovered {
+  background-color: rgba(0, 0, 0, 0.1) !important; /* Add a subtle background on hover */
 }
-</script>
-
-<style>
-.colorBackground {
-  background: #8ac186;
-}
-
-.q-item__section--side {
-  padding-right: 0px !important;
-}
-.q-item__section--avatar {
-  color: white !important;
-}
-.q-item {
-  padding: 16px 0px !important;
-}
-</style>
+  
+  .q-icon.notranslate.material-icons.q-tree__arrow {
+    color: white;
+  }
+  
+  
+  /* Image of Kinetics */
+  .profile-image {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+  }
+  </style>

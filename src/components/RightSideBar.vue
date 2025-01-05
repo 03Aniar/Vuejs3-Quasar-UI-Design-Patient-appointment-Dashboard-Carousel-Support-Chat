@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <q-drawer show-if-above side="right" bordered :width="300">
     <q-toolbar class="q-mt-lg">
         <q-space></q-space>
@@ -64,4 +64,4 @@ export default {
 .top {
   margin-top: -10px;
 }
-</style>
+</style> -->
